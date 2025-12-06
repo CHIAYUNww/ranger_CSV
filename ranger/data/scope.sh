@@ -101,6 +101,13 @@ handle_extension() {
             xlsx2csv -- "${FILE_PATH}" && exit 5
             exit 1;;
 
+        ## CSV (manually added)
+        csv)
+            ## Use pandas dataframe to preview CSV
+            ## csv_preview.py is previously added at the route ~/.config/ranger
+            python3 -m ranger.ext.csv_preview.py "${FILE_PATH}" && exit 5
+            exit 1;;
+
         ## HTML
         htm|html|xhtml)
             ## Preview as text conversion
@@ -184,15 +191,15 @@ handle_image() {
         #     ffmpeg -i "${FILE_PATH}" -map 0:v -map -0:V -c copy \
         #       "${IMAGE_CACHE_PATH}" && exit 6;;
 
-        ## PDF
-        # application/pdf)
-        #     pdftoppm -f 1 -l 1 \
-        #              -scale-to-x "${DEFAULT_SIZE%x*}" \
-        #              -scale-to-y -1 \
-        #              -singlefile \
-        #              -jpeg -tiffcompression jpeg \
-        #              -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
-        #         && exit 6 || exit 1;;
+        PDF
+        application/pdf)
+            pdftoppm -f 1 -l 1 \
+                     -scale-to-x "${DEFAULT_SIZE%x*}" \
+                     -scale-to-y -1 \
+                     -singlefile \
+                     -jpeg -tiffcompression jpeg \
+                     -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
+                && exit 6 || exit 1;;
 
 
         ## ePub, MOBI, FB2 (using Calibre)
